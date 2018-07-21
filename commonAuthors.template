@@ -1,0 +1,10 @@
+SELECT ?author ?authorLabel (COUNT(?pmid) AS ?count) WHERE {
+  VALUES ?pmid {
+# PMIDS
+  }
+  ?article wdt:P698 ?pmid ;
+           wdt:P50 ?author .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} GROUP BY ?author ?authorLabel
+  ORDER BY DESC(?count)
+
