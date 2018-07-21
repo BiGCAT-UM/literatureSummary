@@ -1,0 +1,13 @@
+SELECT DISTINCT ?year (COUNT(?citingArticle) AS ?count) ?articleLabel (?year as ?year_shown) WHERE {
+  VALUES ?pmid {
+# PMIDS
+  }
+  ?article wdt:P698 ?pmid ;
+           wdt:P577 ?date .
+  ?citingArticle wdt:P2860 ?article .
+  BIND(str(YEAR(?date)) AS ?year)
+  FILTER (?date >= "1800-00-00T00:00:00Z"^^xsd:dateTime)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} GROUP BY ?article ?articleLabel ?year
+  ORDER BY DESC(?count)
+

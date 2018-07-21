@@ -1,0 +1,9 @@
+SELECT ?journal ?journalLabel (COUNT(?pmid) AS ?count) WHERE {
+  VALUES ?pmid {
+# PMIDS
+  }
+  ?article wdt:P1433 ?journal ;
+           wdt:P698 ?pmid .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} GROUP BY ?journal ?journalLabel
+  ORDER BY DESC(?count)
