@@ -1,4 +1,7 @@
-all: commonAuthors.csv
+INPUTS := $(wildcard *.template)
+OUTPUTS := $(patsubst %.template,%.csv,$(INPUTS))
+
+all: ${OUTPUTS}
 
 clean:
 	\rm -Rf *.csv *.rq
