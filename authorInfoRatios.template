@@ -1,0 +1,17 @@
+SELECT ?article ?hasORCID ?authorCount ?ratio
+WITH {
+  SELECT ?article (COUNT(DISTINCT ?author) AS ?hasORCID) (MAX(xsd:integer(?ordinal)) AS ?authorCount) WHERE {
+    VALUES ?pmid {
+# PMIDS
+    }
+    ?article wdt:P698 ?pmid ;
+             wdt:P50 ?author ;
+             p:P2093 ?ansStat .
+    ?ansStat pq:P1545 ?ordinal .
+  } GROUP BY ?article
+    ORDER BY DESC(?hasORCID)
+} AS %RESULTS {
+  INCLUDE %RESULTS
+  BIND ((?hasORCID / ?authorCount) AS ?ratio)
+}
+
